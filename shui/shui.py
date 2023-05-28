@@ -11,20 +11,20 @@ hat = SenseHat()
 hat.clear()
 page = 0
 modes = [
-          ("focus",            "F", lambda: killable_script(["python3", "-u", "/home/pi/shui/focus.py"], cwd="/home/pi"))
-        , ("happy",            "H", lambda: killable_script(["python3", "-u", "/home/pi/shui/happy_snap.py"], cwd="/home/pi/happy_snaps", sleep=False))
-        , ("stream",           "S", lambda: killable_script(["python3", "-u", "/home/pi/shui/stream.py"], progress=True))
-        , ("disk",             "D", lambda: killable_script(["python3", "-u", "/home/pi/shui/disk_used.py"]))
-        , ("network details",  "N", lambda: killable_script(["/home/pi/shui/report_ssid.sh"], cwd="/home/pi/shui"))
-        , ("refresh_ssid",     "R", lambda: killable_script(["/home/pi/shui/refresh_ssid.sh"], cwd="/home/pi/shui"))
-        , ("join_local",       "J", lambda: killable_script(["python3", "-u", "/home/pi/shui/try_networks.py"], cwd="/home/pi/shui"))
-        , ("force hotspot",    "A", lambda: killable_script(["/home/pi/shui/force_ap.sh"], cwd="/home/pi/shui"))
-        , ("training_capture", "T", lambda: killable_script(["/home/pi/shui/capture.sh"], progress=True))
-        , ("image_net",        "i", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "3", "--source", "1"], cwd="/home/pi/picam_predict"))
-        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "4", "--source", "1"], cwd="/home/pi/picam_predict"))
-        , ("zero one",         "z", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "6", "--source", "1"], cwd="/home/pi/picam_predict"))
-        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "7", "--source", "1"], cwd="/home/pi/picam_predict"))
-        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "8", "--source", "1"], cwd="/home/pi/picam_predict"))
+          ("focus",            "Focus", lambda: killable_script(["python3", "-u", "/home/pi/shui/focus.py"], cwd="/home/pi"))
+        , ("happy",            "Happy snap", lambda: killable_script(["python3", "-u", "/home/pi/shui/happy_snap.py"], cwd="/home/pi/happy_snaps", sleep=False))
+        , ("stream",           "Stream", lambda: killable_script(["python3", "-u", "/home/pi/shui/stream.py"], progress=True))
+        , ("disk",             "Disk usage", lambda: killable_script(["python3", "-u", "/home/pi/shui/disk_used.py"]))
+        , ("network details",  "Net details", lambda: killable_script(["/home/pi/shui/report_ssid.sh"], cwd="/home/pi/shui"))
+        , ("refresh_ssid",     "Randomise SSID", lambda: killable_script(["/home/pi/shui/refresh_ssid.sh"], cwd="/home/pi/shui"))
+        , ("join_local",       "Join network", lambda: killable_script(["python3", "-u", "/home/pi/shui/try_networks.py"], cwd="/home/pi/shui"))
+        , ("force hotspot",    "Enable hotspot", lambda: killable_script(["/home/pi/shui/force_ap.sh"], cwd="/home/pi/shui"))
+        , ("training_capture", "Capture", lambda: killable_script(["/home/pi/shui/capture.sh"], progress=True))
+        , ("image_net",        "Image net", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "3", "--source", "1"], cwd="/home/pi/picam_predict"))
+        , ("covered?",         "Covered?", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "4", "--source", "1"], cwd="/home/pi/picam_predict"))
+        , ("zero one",         "Zero One", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "6", "--source", "1"], cwd="/home/pi/picam_predict"))
+        , ("numbers?",         "Numbers?", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "7", "--source", "1"], cwd="/home/pi/picam_predict"))
+        , ("glasses?",         "Glasses?", lambda: killable_script(["python3", "-u", "/home/pi/picam_predict/predict.py", "--model", "8", "--source", "1"], cwd="/home/pi/picam_predict"))
         ]
 ps = None
 
@@ -34,7 +34,7 @@ def menu():
     global page
     while True:
         # show the mode we are in
-        hat.show_letter(modes[page][1])
+        hat.show_message(modes[page][1])
         # show an indication of running short of disk space (less than 10MB)
         if (shutil.disk_usage("/").free < 10**7):
             hat.set_pixel(0,0,[255,0,0])
