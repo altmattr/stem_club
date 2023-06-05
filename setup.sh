@@ -30,6 +30,7 @@ python -m pip install numpy
 echo "\n"                     | sudo tee -a /boot/config.txt
 echo "enable_uart=1\n"        | sudo tee -a /boot/config.txt
 echo "dtoverlay=disable-bt\n" | sudo tee -a /boot/config.txt # needed to get uart on gpio on some pis I think
+echo "dtoverlay=rpi-sense\n"  | sudo tee -a /boot/config.txt # sometimes we need to tell the pi there is a sense hat attached, but not always
 echo "start_x=1\n"            | sudo tee -a /boot/config.txt # needed to enable the camera
 
 # enable ssh on next boot
