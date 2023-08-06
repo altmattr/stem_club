@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import shutil
 import sh_utils
 import time

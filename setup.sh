@@ -7,19 +7,20 @@ case $(uname -m) in
   aarch64) echo "Cannot install on 64 bit OS due to missing legacy camera support"; exit;;
 esac
 
-sudo apt-get update
-sudo apt-get install -y vim
-sudo apt-get install -y git
-sudo apt-get install -y python3-pip
-sudo apt-get install -y sense-hat
-sudo apt-get install -y libopenjp2-7-dev
-sudo apt-get install -y libatlas-base-dev
-sudo apt-get install -y python3-opencv
-sudo apt-get install -y network-manager dnsmasq
+#sudo apt-get update
+#sudo apt-get install -y vim
+#sudo apt-get install -y vlc
+#sudo apt-get install -y git
+#sudo apt-get install -y python3-pip
+#sudo apt-get install -y sense-hat
+#sudo apt-get install -y libopenjp2-7-dev
+#sudo apt-get install -y libatlas-base-dev
+#sudo apt-get install -y python3-opencv
+#sudo apt-get install -y network-manager dnsmasq
 
-sudo systemctl disable dnsmasq
-sudo systemctl enable NetworkManager
-sudo systemctl start NetworkManager
+#sudo systemctl disable dnsmasq
+#sudo systemctl enable NetworkManager
+#sudo systemctl start NetworkManager
 
 python -m pip install tflite-runtime
 python -m pip install Pillow
@@ -30,18 +31,21 @@ python -m pip install numpy
 echo "\n"                     | sudo tee -a /boot/config.txt
 echo "enable_uart=1\n"        | sudo tee -a /boot/config.txt
 echo "dtoverlay=disable-bt\n" | sudo tee -a /boot/config.txt # needed to get uart on gpio on some pis I think
-echo "dtoverlay=rpi-sense\n"  | sudo tee -a /boot/config.txt # sometimes we need to tell the pi there is a sense hat attached, but not always
 echo "start_x=1\n"            | sudo tee -a /boot/config.txt # needed to enable the camera
 
 # enable ssh on next boot
 sudo touch /boot/ssh
 
 # ensure scripts are executable
-chmod a+x shui/*.sh
+chmod a+x *.sh
 
-# service
-sudo cp shui/shui.service /etc/systemd/system/
+# TODO: consider `systemctl link` here
+# services
+sudo cp services/shui.service /etc/systemd/system/
 sudo systemctl enable shui.service
+
+sudo cp services/sensors.service /etc/systemd/system/
+sudo systemctl enable sensors.service
 
 # setup wifi access point
 
