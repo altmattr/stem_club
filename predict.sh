@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 import argparse
 import subprocess
 import tflite_runtime.interpreter as tflite
@@ -22,8 +24,8 @@ except:
 def feed(lst_globs):
   if lst_globs == "":
     while True:
-      cam.capture("images/camera-feed.jpg")
-      yield "images/camera-feed.jpg"
+      cam.capture("captures/camera-feed.jpg")
+      yield "captures/camera-feed.jpg"
   else:
     for img_glob in sources[src_i][1]:
       for img_path in glob.glob(img_glob):
@@ -35,7 +37,8 @@ argparser.add_argument("--source", metavar="S", type=int, help="the index of the
 argparser.add_argument("--dir", metavar="d", help="define the model directory directly")
 args = argparser.parse_args()
 
-models = [("MobileNet V1 224","models/mobilenet_v1_1.0_224_quant"),
+models = [("Stem Club", "models/stem_club"),
+          ("MobileNet V1 224","models/mobilenet_v1_1.0_224_quant"),
           ("MobileNet V1 128","models/mobilenet_v1_0.25_128_quant"),
           ("MobileNet V3 224 float", "models/mobilenet_v3_224_float"),
           ("Inception V4", "models/inception_v4_quant"),
@@ -99,13 +102,6 @@ try:
 except:
     print("no icon file found")
 
-log_as=[]
-try:
-    with open(models[model_i][1]+"/log_as.txt", "r") as f:
-        log_as = [line.strip() for line in f.readlines()]
-except:
-    print("no logging file found")
-
 print(f"Predicting from source: {sources[src_i][0]}")
 
 hat.clear()
@@ -134,14 +130,10 @@ for img_path in feed(sources[src_i][1]):
   best_index = ordered_indexes[0]
 
   # display on sense_hat
-  icon_file = icons[best_index] if len(icons) > best_index else None
-  if (icon_file):
-      exec(open(f"icons/{icon_file}.py").read())
-  else:
-      exec(open(f"icons/number.py").read() + f"\npixels_of_num({best_index})\n")
+  hat.show_message(str(model_i), 0.1, [255,255,255], [0,0,0])
 
   # log if needed
-  log_as_file = "/home/pi/logs/" + models[model_i][1] + "/" + log_as[best_index]+"/" + datetime.now().strftime("%Y-%m-%d:%H:%M:%S")+".png" if len(log_as) > best_index else None
+  log_as_file = "/home/pi/logs/" + models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d:%H:%M:%S")+".png" if labels[best_index].endswith("*")  else None
   if (log_as_file):
       os.makedirs(os.path.dirname(log_as_file), exist_ok=True)
       shutil.copy(img_path, log_as_file)

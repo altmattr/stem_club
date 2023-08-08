@@ -4,11 +4,13 @@ import re
 import os
 import time
 
+print("bringing down access point")
 os.system("sudo nmcli connection down 'WiFiAP'")
 time.sleep(3)
 
 file = open("networks.conf", "r")
 lines = file.readlines()
+print(f"found {lines}  possible candidate networks")
 
 for line in lines:
   match = re.search("^(.*):(.*)$", line)

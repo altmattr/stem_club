@@ -79,13 +79,14 @@ else
   SSID="$1"
 fi
 
+echo "The new SSID will be  $SSID"
+
 sudo nmcli connection down $APNAME
 
 sudo nmcli connection modify $APNAME ssid "$SSID"
 
 sudo nmcli connection up $APNAME
 
-echo "The new SSID is $SSID"
 
 ./hat_text.sh "$SSID"
 ./hat_text.sh "$SSID"

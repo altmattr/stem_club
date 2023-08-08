@@ -12,6 +12,8 @@ cam.rotation = 90
 hat = SenseHat()
 hat.low_light = False
 
+print("for use with sense hat")
+
 while True:
     print(".", end="", flush=True)
     stream = io.BytesIO()

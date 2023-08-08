@@ -9,6 +9,8 @@ import math
 cam = picamera.PiCamera()
 hat = SenseHat()
 
+print("a script to help focussing with only the sense hat interface")
+
 while True:
     raw = PiRGBArray(cam)
     cam.capture(raw, format="bgr")

@@ -7,8 +7,8 @@ echo "if successful, new ssid will be..."
 nmcli  -f  802-11-wireless.ssid connection show "WiFiAP"
 
 if [ "$connection" != "WiFiAP" ]; then
-	nmcli connection down "$connection"
-	nmcli connection up "WiFiAP"
+	sudo nmcli connection down "$connection"
+	sudo mcli connection up "WiFiAP"
 fi
 
 ./report_ssid.sh
