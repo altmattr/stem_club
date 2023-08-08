@@ -41,8 +41,8 @@ chmod a+x *.sh
 
 # TODO: consider `systemctl link` here
 # services
-sudo cp services/shui.service /etc/systemd/system/
-sudo systemctl enable shui.service
+sudo cp services/interface.service /etc/systemd/system/
+sudo systemctl enable interface.service
 
 sudo cp services/sensors.service /etc/systemd/system/
 sudo systemctl enable sensors.service

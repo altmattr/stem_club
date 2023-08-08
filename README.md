@@ -6,7 +6,6 @@ To get it up and running, ```git clone``` this repository, then ```sudo chmod +x
 
 After rebooting the pi, you should see the menu show up on the sense hat once the system has rebooted. 
 
-TODO: adjust instructions so it clones into home dir, not a sub-dir
 
 ## Using
 
