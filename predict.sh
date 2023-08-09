@@ -133,7 +133,7 @@ for img_path in feed(sources[src_i][1]):
   hat.show_message(str(model_i), 0.1, [255,255,255], [0,0,0])
 
   # log if needed
-  log_as_file = "/home/pi/logs/" + models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d:%H:%M:%S")+".png" if labels[best_index].endswith("*")  else None
+  log_as_file = "/home/pi/stem_club/logs/" + models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d:%H:%M:%S")+".png" if labels[best_index].endswith("*")  else None
   if (log_as_file):
       os.makedirs(os.path.dirname(log_as_file), exist_ok=True)
       shutil.copy(img_path, log_as_file)
