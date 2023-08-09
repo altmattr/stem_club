@@ -1,11 +1,12 @@
 [Unit]
-Description=pick an action
+Description=run stem club prediction
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/home/pi/sensors.sh
+WorkingDirectory=/home/pi/stem_club/
+ExecStart=/home/pi/stem_club/predict.sh --model=0 --source=1
 RemainAfterExit=yes
 User=pi
 GuessMainPID=no
