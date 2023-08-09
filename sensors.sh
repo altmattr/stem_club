@@ -10,7 +10,7 @@ logging.basicConfig(
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger("sensor log")
-logger.addHandler(TimedRotatingFileHandler("/home/pi/logs/sensor",
+logger.addHandler(TimedRotatingFileHandler("/home/pi/stem_club/logs/sensor",
                                             when="m",
 					    interval=10))
 

@@ -1,11 +1,11 @@
 [Unit]
-Description=pick an action
+Description=log all the sensors
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/home/pi/sensors.sh
+ExecStart=/home/pi/stem_club/sensors.sh
 RemainAfterExit=yes
 User=pi
 GuessMainPID=no
