@@ -5,7 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 -u /home/pi/interface/shui.py
+ExecStart=/usr/bin/python3 -u /home/pi/stem_club/interface/shui.py
 RemainAfterExit=yes
 User=pi
 GuessMainPID=no
