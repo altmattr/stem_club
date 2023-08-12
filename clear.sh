@@ -1,7 +1,7 @@
 echo "clearing logs"
-rm -Rf /home/pi/logs/*
+rm -Rf /home/pi/stem_club/logs/*
 echo "clearing captures"
-rm -Rf /home/pi/captures/*
+rm -Rf /home/pi/stem_club/captures/*
 echo "clearing happy snaps"
-rm -Rf /home/pi/happy_snaps/*
+rm -Rf /home/pi/stem_club/happy_snaps/*
 echo "done"

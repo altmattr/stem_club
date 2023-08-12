@@ -130,7 +130,7 @@ for img_path in feed(sources[src_i][1]):
   best_index = ordered_indexes[0]
 
   # display on sense_hat
-  hat.show_message(str(model_i), 0.1, [255,255,255], [0,0,0])
+  hat.show_message(str(best_index), 0.1, [255,255,255], [0,0,0])
 
   # log if needed
   log_as_file = "/home/pi/stem_club/logs/" + models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d:%H:%M:%S")+".png" if labels[best_index].endswith("*")  else None
