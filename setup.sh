@@ -17,6 +17,7 @@ esac
 #sudo apt-get install -y libatlas-base-dev
 #sudo apt-get install -y python3-opencv
 #sudo apt-get install -y network-manager dnsmasq
+#sudo apt-get install -y sshpass
 
 #sudo systemctl disable dnsmasq
 #sudo systemctl enable NetworkManager
