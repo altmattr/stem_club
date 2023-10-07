@@ -7,7 +7,10 @@ from sense_hat import SenseHat
 import math
 
 cam = picamera.PiCamera()
-hat = SenseHat()
+try:
+    hat = SenseHat()
+except:
+    pass
 
 print("a script to help focussing with only the sense hat interface")
 
@@ -24,4 +27,7 @@ while True:
             sub = gray[y*hs:(y+1)*hs, x*ws:(x+1)*ws]
             v = cv2.Laplacian(sub, cv2.CV_64F).var()
             i = max(min(math.floor(v/4), 255), 0)
-            hat.set_pixel(x,y,[i, i, i])
+            try:
+                hat.set_pixel(x,y,[i, i, i])
+            except:
+                pass
