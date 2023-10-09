@@ -1,0 +1,4 @@
+# No files shall travel past this point! Except this one.
+# We need this gitignore for the directory to exist. And this way I'm not pushing any test captures of my grimy desk.
+*
+!.gitignore

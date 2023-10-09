@@ -12,7 +12,7 @@ hat.clear()
 page = 0
 modes = [
           ("focus",            "K", lambda: killable_script(["/home/pi/stem_club/focus.sh"], cwd="/home/pi"))
-        , ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/happy_snaps", sleep=False))
+        , ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))
         , ("network details",  "N", lambda: killable_script(["/home/pi/stem_club/report_ssid.sh"], cwd="/home/pi/stem_club"))
