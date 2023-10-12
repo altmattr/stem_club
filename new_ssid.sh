@@ -73,7 +73,8 @@ index_b=$(($RANDOM % $size_b))
 
 APNAME="WiFiAP"
 
-if [ -z "$1" ] then
+if [ -z "$1" ]
+then
   SSID="${a[$index_a]} ${b[$index_b]}"
 else
   SSID="$1"
