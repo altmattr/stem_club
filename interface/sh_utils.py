@@ -1,9 +1,15 @@
 from sense_hat import SenseHat
 
-hat = SenseHat()
+try:
+  hat = SenseHat()
+except:
+  pass
 
 def pixels_of_num(pixels):
-    hat.set_pixels(pon(pixels))
+    try:
+      hat.set_pixels(pon(pixels))
+    except:
+      pass
 
 def pon(remaining):
     limit = 64
