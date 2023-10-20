@@ -1,4 +1,6 @@
 #! /usr/bin/bash
 SN=$(cat /sys/firmware/devicetree/base/serial-number)
 echo $SN
-sshpass -p "mqpi" rsync -avz --mkpath logs/ datakeeper@10.0.2.175:logs/$SN/
+ssh-keyscan 104.248.111.111 >> ~/.ssh/known_hosts
+sed -e '/ssh-keyscan/ s/^#*/#/' -i /home/pi/stem_club/sync.sh
+sshpass -p "mqpi" rsync -avz --mkpath logs/ datakeeper@104.248.111.111:logs/$SN/

@@ -71,7 +71,7 @@ Start logging sensor data and any _notable things_ seen in the camera.  A notabl
 
 Primarily for sense hat users, whill tell the user (via the sense hat) what network the pi is currently connected to and the IP address it has on that network.
 
-# Configuations
+# Configurations
 
 ### `networks.conf`
 

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import shutil
-import sh_utils
+import interface.sh_utils
 import time
 
 while True:
@@ -9,5 +9,5 @@ while True:
     percentage = used / total
     pixels = int(percentage * 60)
     print(f"{percentage*100:2.2f}% of disk used")
-    sh_utils.pixels_of_num(pixels)
+    interface.sh_utils.pixels_of_num(pixels)
     time.sleep(10)

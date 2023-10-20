@@ -12,7 +12,7 @@ hat.clear()
 page = 0
 modes = [
           ("focus",            "K", lambda: killable_script(["/home/pi/stem_club/focus.sh"], cwd="/home/pi"))
-        , ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/happy_snaps", sleep=False))
+        , ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))
         , ("network details",  "N", lambda: killable_script(["/home/pi/stem_club/report_ssid.sh"], cwd="/home/pi/stem_club"))
@@ -21,10 +21,10 @@ modes = [
         , ("force hotspot",    "F", lambda: killable_script(["/home/pi/stem_club/field_mode.sh"], cwd="/home/pi/stem_club"))
         , ("training_capture", "T", lambda: killable_script(["/home/pi/stem_club/capture.sh"], progress=True))
         , ("image_net",        "s", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "0", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "4", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("zero one",         "z", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "6", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "7", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "8", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "5", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("zero one",         "z", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "7", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "8", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/predict.sh", "--model", "9", "--source", "1"], cwd="/home/pi/stem_club"))
         ]
 ps = None
 
