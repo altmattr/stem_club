@@ -5,6 +5,7 @@
 # Note: needs simplejpeg to be installed (pip3 install simplejpeg).
 
 import io
+import os
 import logging
 import socketserver
 import piexif
@@ -14,6 +15,8 @@ from threading import Condition
 from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
+
+os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
 
 # Code to request that browsers rotate the video, since picamera2 despises 90/270 degree rotations
 exif_bytes = piexif.dump({'0th': {piexif.ImageIFD.Orientation: 8}})
