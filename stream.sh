@@ -19,7 +19,7 @@ from picamera2.outputs import FileOutput
 os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
 
 # Code to request that browsers rotate the video, since picamera2 despises 90/270 degree rotations
-exif_bytes = piexif.dump({'0th': {piexif.ImageIFD.Orientation: 8}})
+exif_bytes = piexif.dump({'0th': {piexif.ImageIFD.Orientation: 6}})
 exif_len = len(exif_bytes) + 2
 blob = bytes.fromhex('ffe1') + exif_len.to_bytes(2, 'big') + exif_bytes
 
