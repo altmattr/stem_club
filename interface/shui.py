@@ -9,6 +9,7 @@ import sh_utils
 
 hat = SenseHat()
 hat.clear()
+hat.set_rotation(90)
 page = 0
 modes = [
           ("focus",            "K", lambda: killable_script(["/home/pi/stem_club/focus.sh"], cwd="/home/pi"))
@@ -44,10 +45,10 @@ def menu():
         event = hat.stick.wait_for_event()
         if (event.action != "pressed"):
             continue
-        elif (event.direction == "right"):
+        elif (event.direction == "down"):
             print("moving right " + str(page))
             page = (page + 1)% len(modes)
-        elif (event.direction == "left"):
+        elif (event.direction == "up"):
             print("moving left " + str(page))
             page = (page - 1)% len(modes)
         elif (event.direction == "middle"):
