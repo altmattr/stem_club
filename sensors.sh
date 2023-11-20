@@ -15,6 +15,7 @@ logger.addHandler(TimedRotatingFileHandler("/home/pi/stem_club/logs/sensor",
 					    interval=10))
 
 hat = SenseHat()
+hat.set_rotation(90)
 hat.set_imu_config(True, True, True)
 hat.color.gain = 60
 hat.color.integration_cycles = 64

@@ -1,6 +1,7 @@
 from sense_hat import SenseHat
 
 hat = SenseHat()
+hat.set_rotation(90)
 
 def pixels_of_num(pixels):
     hat.set_pixels(pon(pixels))

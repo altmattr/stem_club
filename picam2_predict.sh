@@ -74,6 +74,7 @@ sources = [("Example Images",["images/224x224/*",
 
 try: 
 	hat = SenseHat()
+	hat.set_rotation(90)
 	hat.show_message("?")
 except:
 	print("No sense hat detected")
