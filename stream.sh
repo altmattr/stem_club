@@ -8,7 +8,6 @@ import io
 import os
 import logging
 import socketserver
-import piexif
 from http import server
 from threading import Condition
 
@@ -19,9 +18,6 @@ from picamera2.outputs import FileOutput
 os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
 
 # Code to request that browsers rotate the video, since picamera2 despises 90/270 degree rotations
-exif_bytes = piexif.dump({'0th': {piexif.ImageIFD.Orientation: 6}})
-exif_len = len(exif_bytes) + 2
-blob = bytes.fromhex('ffe1') + exif_len.to_bytes(2, 'big') + exif_bytes
 
 PAGE="""\
 <html>
@@ -46,7 +42,6 @@ class StreamingOutput(io.BufferedIOBase):
 
     def write(self, buf):
         with self.condition:
-            buf = buf[:2] + blob + buf[2:]
             self.frame = buf
             self.condition.notify_all()
 
