@@ -1,5 +1,5 @@
 #! /usr/bin/bash
-SN=$(cat /sys/firmware/devicetree/base/serial-number)
+SN=$(tr -d '\0' < /sys/firmware/devicetree/base/serial-number)
 echo $SN
 ssh-keyscan 104.248.111.111 >> ~/.ssh/known_hosts
 sed -e '/ssh-keyscan/ s/^#*/#/' -i /home/pi/stem_club/sync.sh

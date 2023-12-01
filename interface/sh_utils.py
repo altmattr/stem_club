@@ -4,7 +4,10 @@ hat = SenseHat()
 hat.set_rotation(90)
 
 def pixels_of_num(pixels):
-    hat.set_pixels(pon(pixels))
+    try:
+      hat.set_pixels(pon(pixels))
+    except:
+      pass
 
 def pon(remaining):
     limit = 64
