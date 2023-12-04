@@ -1,15 +1,15 @@
 #! /usr/bin/python3
 
 import io
-import picamera
+from picamera2 import Picamera2
 from PIL import Image
 from sense_hat import SenseHat
 from datetime import datetime
 
-cam = picamera.PiCamera()
-cam.start_preview()
-cam.rotation = 90
+cam = Picamera2()
+cam.start()
 hat = SenseHat()
+hat.set_rotation(90)
 hat.low_light = False
 
 print("for use with sense hat")
@@ -17,7 +17,7 @@ print("for use with sense hat")
 while True:
     print(".", end="", flush=True)
     stream = io.BytesIO()
-    cam.capture(stream, format='jpeg')
+    cam.capture_file(stream, format='jpeg')
     stream.seek(0)
     image = Image.open(stream)
     pixel_img = image.resize((8,8))
@@ -27,7 +27,8 @@ while True:
     for evt in hat.stick.get_events():
         if (evt.direction == "middle" and evt.action == "pressed"):
             exit()
-        if (evt.direction == "up" and evt.action == "pressed"):
+        if (evt.direction == "right" and evt.action == "pressed"):
+            hat.clear()
             label = datetime.now().strftime("%Y-%m-%d:%H:%M:%S")
             image.save(label+".png", "PNG")
             pixel_img.save(label+".tiny.png", "PNG")

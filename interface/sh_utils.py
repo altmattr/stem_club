@@ -1,9 +1,7 @@
 from sense_hat import SenseHat
 
-try:
-  hat = SenseHat()
-except:
-  pass
+hat = SenseHat()
+hat.set_rotation(90)
 
 def pixels_of_num(pixels):
     try:

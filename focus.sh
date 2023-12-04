@@ -1,12 +1,18 @@
 #! /usr/bin/python3
 
-import picamera
-from picamera.array import PiRGBArray
+import os
+from picamera2 import *
 import cv2
 from sense_hat import SenseHat
 import math
 
-cam = picamera.PiCamera()
+os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
+
+cam = Picamera2()
+cam.preview_configuration.enable_lores()
+config = cam.create_preview_configuration(lores={"size": (640, 480), "format": "BGR888"})
+cam.configure(config)
+
 try:
     hat = SenseHat()
 except:
@@ -14,10 +20,10 @@ except:
 
 print("a script to help focussing with only the sense hat interface")
 
+cam.start(show_preview=False)
 while True:
-    raw = PiRGBArray(cam)
-    cam.capture(raw, format="bgr")
-    gray = cv2.cvtColor(raw.array, cv2.COLOR_BGR2GRAY)
+    bgr = cam.capture_array("lores")
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
     h = len(gray)
     w = len(gray[0])
     hs = h//8
