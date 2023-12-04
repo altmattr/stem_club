@@ -27,7 +27,8 @@ while True:
     for evt in hat.stick.get_events():
         if (evt.direction == "middle" and evt.action == "pressed"):
             exit()
-        if (evt.direction == "up" and evt.action == "pressed"):
+        if (evt.direction == "right" and evt.action == "pressed"):
+            hat.clear()
             label = datetime.now().strftime("%Y-%m-%d:%H:%M:%S")
             image.save(label+".png", "PNG")
             pixel_img.save(label+".tiny.png", "PNG")
