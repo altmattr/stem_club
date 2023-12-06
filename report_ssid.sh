@@ -1,7 +1,7 @@
 #!/bin/bash
 
 connection=`nmcli -t -f NAME con | head -n 1`
-SSID=`grep -oP "ssid=\K.*"`
+SSID=`sudo grep -oP "ssid=\K.*" /etc/NetworkManager/system-connections/WiFiAP.nmconnection`
 ./hat_text.sh "$connection"
 #./hat_text.sh "$SSID"
 
