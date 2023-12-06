@@ -88,7 +88,7 @@ sudo nmcli connection modify $APNAME ssid "$SSID"
 
 sudo nmcli connection up $APNAME
 
-sed -i "s,$(grep -oP "ssid=\K.*" /boot/config.txt),$SSID," /boot/config.txt
+sudo sed -i "s,$(grep -oP "ssid=\K.*" /boot/config.txt),$SSID," /boot/config.txt
 
 ./hat_text.sh "$SSID"
 ./hat_text.sh "$SSID"
