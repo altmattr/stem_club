@@ -100,16 +100,11 @@ dtype = inputs["dtype"]
 scale, zero = outputs['quantization']
 print(f"Predicting with model:  {models[model_i][0]}\n  * size: ({width}x{height})\n  * type: {dtype}\n  * scale: ({scale},{zero})")
 
-lables=[]
+labels=[]
 with open(models[model_i][1]+"/labels.txt", "r") as f:
 	labels = [line.strip() for line in f.readlines()]
-
-icons=[]
-try:
-	with open(models[model_i][1]+"/icons.txt", "r") as f:
-		icons = [line.strip() for line in f.readlines()]
-except:
-	print("no icon file found")
+labels_plus = map(lambda l: re.search("\s", l), labels)
+print(labels_plus)
 
 print(f"Predicting from source: {sources[src_i][0]}")
 
@@ -140,6 +135,11 @@ for img_path in feed(sources[src_i][1]):
 
 	ordered_indexes = np.flip(output_data.argsort())
 	best_index = ordered_indexes[0]
+
+	bin = best_index
+	label = labels_plus[best_index][1]
+	img = labels_plus[best_index][2]
+	print(img)
 
 	# display on sense_hat
 	try:

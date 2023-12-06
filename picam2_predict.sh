@@ -8,6 +8,7 @@ from PIL import Image
 import time
 import shutil
 import os
+import re
 import glob
 from picamera2 import *
 from sense_hat import SenseHat
@@ -111,16 +112,13 @@ dtype = inputs["dtype"]
 scale, zero = outputs['quantization']
 print(f"Predicting with model:  {models[model_i][0]}\n  * size: ({width}x{height})\n  * type: {dtype}\n  * scale: ({scale},{zero})")
 
-lables=[]
+labels=[]
 with open(models[model_i][1]+"/labels.txt", "r") as f:
 	labels = [line.strip() for line in f.readlines()]
 
-icons=[]
-try:
-	with open(models[model_i][1]+"/icons.txt", "r") as f:
-		icons = [line.strip() for line in f.readlines()]
-except:
-	print("no icon file found")
+# there will always be two values in the list for labels_plus
+labels_plus = list(map(lambda l: re.split("(?<=\d)\s+|\s+(?=\[)", l), labels))
+print(labels_plus)
 
 print(f"Predicting from source: {sources[src_i][0]}")
 
@@ -152,9 +150,19 @@ for img_path in feed(sources[src_i][1]):
 	ordered_indexes = np.flip(output_data.argsort())
 	best_index = ordered_indexes[0]
 
+	bin   = labels_plus[best_index][0]                        if len(labels_plus[best_index]) > 0 else None
+	label = labels_plus[best_index][1]                        if len(labels_plus[best_index]) > 1 else None
+	img   = labels_plus[best_index][2].strip("][").split(",") if len(labels_plus[best_index]) > 2 else None
+
 	# display on sense_hat
 	try:
-		hat.show_message(str(best_index), 0.1, [255,255,255], [0,0,0])
+		if img:
+			print("trying the image in the labels file")
+			this_img = list(map(lambda i: [255,255,255] if (i == "1") else [0,0,0], img))
+			print(len(this_img))
+			hat.set_pixels(this_img[:64])
+		else: 
+			hat.show_message(str(best_index), 0.1, [255,255,255], [0,0,0])
 	except:
 		pass
 
@@ -164,4 +172,4 @@ for img_path in feed(sources[src_i][1]):
 		os.makedirs(os.path.dirname(log_as_file), exist_ok=True)
 		shutil.copy(img_path, log_as_file)
 
-	print(f"  * {img_path} = {labels[best_index]} %0.0f%%" % output_data[best_index])
+	print(f"  * {img_path} = {label} %0.0f%%" % output_data[best_index])
