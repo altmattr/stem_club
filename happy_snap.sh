@@ -29,6 +29,6 @@ while True:
             exit()
         if (evt.direction == "right" and evt.action == "pressed"):
             hat.clear()
-            label = datetime.now().strftime("%Y-%m-%d:%H:%M:%S")
+            label = datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
             image.save(label+".png", "PNG")
             pixel_img.save(label+".tiny.png", "PNG")
