@@ -46,21 +46,16 @@ def feed(lst_globs):
 				yield img_path
 
 argparser = argparse.ArgumentParser(description="Run a Model on a set of images or a camera feed and generate predictions.")
-argparser.add_argument("--model", metavar="M", type=int, help="the index of the model to use.")
-argparser.add_argument("--source", metavar="S", type=int, help="the index of the source to use.")
+argparser.add_argument("--model", metavar="M", help="the index of the model to use.")
+argparser.add_argument("--source", metavar="S", type=int, help="the name of the source to use.")
 argparser.add_argument("--dir", metavar="d", help="define the model directory directly")
 args = argparser.parse_args()
 
 models = [("Stem Club", "models/stem_club"),
-		("MobileNet V1 224","models/mobilenet_v1_1.0_224_quant"),
-		("MobileNet V1 128","models/mobilenet_v1_0.25_128_quant"),
-		("MobileNet V3 224 float", "models/mobilenet_v3_224_float"),
 		("Inception V4", "models/inception_v4_quant"),
-		("Custom: Is the camera covered (quant)?", "models/covered_quant"),
-		("Custom: Is the camera covered (float)?", "models/covered_float"),
-		("Custom: Numbers 0 or 1", "models/Zero_One_Model01"),
-		("Custom: Numbers 0 to 5", "models/Zero_Five_Model03"),
-		("Custom: Glasses or not glasses?", "models/glasses_or_not")
+		("Is the camera covered?", "models/covered_float"),
+		("Numbers 0 to 5", "models/Zero_Five_Model03"),
+		("Glasses or not glasses?", "models/glasses_or_not")
 		]
 
 sources = [("Example Images",["images/224x224/*",
@@ -86,7 +81,11 @@ if args.model is None:
 		print(f"({i}) {mod[0]}")
 	model_i = int(input())
 else:
-	model_i = args.model
+	model_i = 0 # stem club by default
+	for i, mod in enumerate(models):
+		if (mod[0] == args.model):
+			model_i = i
+			print(f"model {args.model} found")
 
 if args.source is None:
 	print("Which source would you like predict from?")
