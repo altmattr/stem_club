@@ -21,10 +21,11 @@ modes = [
         , ("force hotspot",    "F", lambda: killable_script(["/home/pi/stem_club/field_mode.sh"], cwd="/home/pi/stem_club"))
         , ("training_capture", "T", lambda: killable_script(["/home/pi/stem_club/capture.sh"], progress=True))
         , ("sync",             "K", lambda: killable_script(["/home/pi/stem_club/sync.sh"], progress=True))
-        , ("image_net",        "i", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "0", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "5", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "8", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "9", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("stem club",        "s", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Stem Club", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("image_net",        "i", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Inception V4", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "is the camera covered?", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Numbers 0 to 5", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Glasses or not glasses?", "--source", "1"], cwd="/home/pi/stem_club"))
         ]
 ps = None
 
