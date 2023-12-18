@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 .DS_Store
-
+.vscode/
 captures/*
 logs/*
 happy_snaps/*
