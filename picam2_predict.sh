@@ -38,8 +38,8 @@ def feed(lst_globs):
 			cam.still_configuration.enable_lores()
 			config = cam.create_still_configuration(lores={"size": (224, 224)}, display="lores")
 			cam.configure(config)
-			cam.start_and_capture_file("captures/camera-feed.jpg")
-			yield "captures/camera-feed.jpg"
+			cam.start_and_capture_file("/home/pi/stem_club/captures/camera-feed.jpg")
+			yield "/home/pi/stem_club/captures/camera-feed.jpg"
 	else:
 		for img_glob in sources[src_i][1]:
 			for img_path in glob.glob(img_glob):
@@ -51,19 +51,19 @@ argparser.add_argument("--source", metavar="S", type=int, help="the name of the 
 argparser.add_argument("--dir", metavar="d", help="define the model directory directly")
 args = argparser.parse_args()
 
-models = [("Stem Club", "models/stem_club"),
-		("Inception V4", "models/inception_v4_quant"),
-		("Is the camera covered?", "models/covered_float"),
-		("Numbers 0 to 5", "models/Zero_Five_Model03"),
-		("Glasses or not glasses?", "models/glasses_or_not")
+models = [("Stem Club", "/home/pi/stem_club/models/stem_club"),
+		("Inception V4", "/home/pi/stem_club/models/inception_v4_quant"),
+		("Is the camera covered?", "/home/pi/stem_club/models/covered_float"),
+		("Numbers 0 to 5", "/home/pi/stem_club/models/Zero_Five_Model03"),
+		("Glasses or not glasses?", "/home/pi/stem_club/models/glasses_or_not")
 		]
 
-sources = [("Example Images",["images/224x224/*",
-							"images/room.jpg", 
-							"images/239x215/*", 
-							"images/128x128/*",
-							"images/imagenet_examples/*",
-							"images/faces/*"
+sources = [("Example Images",["/home/pi/stem_club/images/224x224/*",
+							"/home/pi/stem_club/images/room.jpg", 
+							"/home/pi/stem_club/images/239x215/*", 
+							"/home/pi/stem_club/images/128x128/*",
+							"/home/pi/stem_club/images/imagenet_examples/*",
+							"/home/pi/stem_club/images/faces/*"
 							]),
 		("Camera","")
 		]
@@ -77,12 +77,12 @@ except:
 
 if args.model is None:
 	print("Which model would you like to run?")
-	for i, mod in enumerate(models):
+	for i, mod in enumerate(/home/pi/stem_club/models):
 		print(f"({i}) {mod[0]}")
 	model_i = int(input())
 else:
 	model_i = 0 # stem club by default
-	for i, mod in enumerate(models):
+	for i, mod in enumerate(/home/pi/stem_club/models):
 		if (mod[0] == args.model):
 			model_i = i
 			print(f"model {args.model} found")
@@ -100,7 +100,7 @@ try:
 except:
 	pass
 
-interpreter = tflite.Interpreter(models[model_i][1]+"/model.tflite")
+interpreter = tflite.Interpreter(/home/pi/stem_club/models[model_i][1]+"/model.tflite")
 interpreter.allocate_tensors()
 
 inputs = interpreter.get_input_details()[0];
@@ -109,10 +109,10 @@ width  = inputs["shape"][2]
 height = inputs["shape"][1]
 dtype = inputs["dtype"]
 scale, zero = outputs['quantization']
-print(f"Predicting with model:  {models[model_i][0]}\n  * size: ({width}x{height})\n  * type: {dtype}\n  * scale: ({scale},{zero})")
+print(f"Predicting with model:  {/home/pi/stem_club/models[model_i][0]}\n  * size: ({width}x{height})\n  * type: {dtype}\n  * scale: ({scale},{zero})")
 
 labels=[]
-with open(models[model_i][1]+"/labels.txt", "r") as f:
+with open(/home/pi/stem_club/models[model_i][1]+"/labels.txt", "r") as f:
 	labels = [line.strip() for line in f.readlines()]
 
 # there will always be two values in the list for labels_plus
@@ -131,7 +131,7 @@ for img_path in feed(sources[src_i][1]):
 	
 	# we need another dimension
 	input_data = np.expand_dims(img, axis=0)
-	# TODO: hard coding the std for float32 models - but seems to work for now
+	# TODO: hard coding the std for float32 /home/pi/stem_club/models - but seems to work for now
 	if (dtype == np.float32):
 		input_data = (np.float32(input_data) - 127.5) / 127.5
 
@@ -166,7 +166,7 @@ for img_path in feed(sources[src_i][1]):
 		pass
 
 	# log if needed
-	log_as_file = "/home/pi/stem_club/logs/" + models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S")+".png" if labels[best_index].endswith("*")  else None
+	log_as_file = "/home/pi/stem_club/logs/" + /home/pi/stem_club/models[model_i][1] + "/" + labels[best_index].strip("*")+"/" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S")+".png" if labels[best_index].endswith("*")  else None
 	if (log_as_file):
 		os.makedirs(os.path.dirname(log_as_file), exist_ok=True)
 		shutil.copy(img_path, log_as_file)
