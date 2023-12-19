@@ -100,7 +100,11 @@ try:
 except:
 	pass
 
-interpreter = tflite.Interpreter(models[model_i][1]+"/model.tflite")
+modelfile = models[model_i][1]+"/model.tflite"
+if os.path.isfile(models[model_i][1]+"/model_unquant.tflite"):
+	modelfile = models[model_i][1]+"/model_unquant.tflite"
+
+interpreter = tflite.Interpreter(modelfile)
 interpreter.allocate_tensors()
 
 inputs = interpreter.get_input_details()[0];
