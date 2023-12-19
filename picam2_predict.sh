@@ -55,6 +55,7 @@ models = [("Stem Club", "models/stem_club"),
 		("Inception V4", "models/inception_v4_quant"),
 		("Is the camera covered?", "models/covered_float"),
 		("Numbers 0 to 5", "models/Zero_Five_Model03"),
+		("Numbers 0 to 9", "models/zero_nine"),
 		("Glasses or not glasses?", "models/glasses_or_not")
 		]
 
