@@ -66,7 +66,9 @@ sources = [("Example Images",["images/224x224/*",
 							"images/imagenet_examples/*",
 							"images/faces/*"
 							]),
-		("Camera","")
+		("Camera",""),
+		("Happy Snaps", ["happy_snaps/*"]),
+		("Captures", ["captures/*"])
 		]
 
 try: 
