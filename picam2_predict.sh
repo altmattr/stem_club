@@ -159,11 +159,18 @@ for img_path in feed(sources[src_i][1]):
 	bin   = labels_plus[best_index][0]                        if len(labels_plus[best_index]) > 0 else None
 	label = labels_plus[best_index][1]                        if len(labels_plus[best_index]) > 1 else None
 	img   = labels_plus[best_index][2].strip("][").split(",") if len(labels_plus[best_index]) > 2 else None
+	
+	colour=[0,0,255]
+	if label == "CLOSE RAAA":
+		colour= [255,0,0]
+	if label == "FAAAARRRrrrrrr":
+		colour= [0,255,0]
 
 	# display on sense_hat
 	try:
+
 		if img:
-			this_img = list(map(lambda i: [255,255,255] if (i == "1") else [0,0,0], img))
+			this_img = list(map(lambda i: colour if (i == "1") else [0,0,0], img))
 			hat.set_pixels(this_img[:64])
 		else: 
 			hat.show_message(str(best_index), 0.1, [255,255,255], [0,0,0])
