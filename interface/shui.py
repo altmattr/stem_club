@@ -27,6 +27,7 @@ modes = [
         , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Numbers 0 to 9", "--source", "1"], cwd="/home/pi/stem_club"))
         , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Glasses or not glasses?", "--source", "1"], cwd="/home/pi/stem_club"))
         , ("pandemic",         "p", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Pandemic", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("person car" ,      "r", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Person Car", "--source", "1"], cwd="/home/pi/stem_club"))
         ]
 ps = None
 

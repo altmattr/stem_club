@@ -10,7 +10,7 @@ cam = Picamera2()
 cam.start()
 hat = SenseHat()
 hat.set_rotation(90)
-hat.low_light = False
+#hat.low_light = False
 
 print("for use with sense hat")
 
