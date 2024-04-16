@@ -6,6 +6,8 @@ from PIL import Image
 from sense_hat import SenseHat
 from datetime import datetime
 
+export LIBCAMERA_LOG_LEVELS=*:4
+
 cam = Picamera2()
 cam.start()
 hat = SenseHat()
@@ -32,3 +34,4 @@ while True:
             label = datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
             image.save(label+".png", "PNG")
             pixel_img.save(label+".tiny.png", "PNG")
+            print("Image captured...")
