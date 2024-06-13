@@ -6,8 +6,6 @@ from PIL import Image
 from sense_hat import SenseHat
 from datetime import datetime
 
-export LIBCAMERA_LOG_LEVELS=*:4
-
 cam = Picamera2()
 cam.start()
 hat = SenseHat()
