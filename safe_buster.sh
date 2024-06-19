@@ -11,6 +11,8 @@ hat.clear()
 print("for use with sense hat")
 
 game_over = False
+last_input = 0
+match = 6
 player = 1
 fill = 0
 score = 0
@@ -24,12 +26,17 @@ green = [0,255,0]
 orange = [255,165,0]
 brown = [101,73,46]
 purple = [41,37,62]
+yellow = [255,255,0]
 
 last_time = time.time()
 while not game_over:
     # grab oldest move and discard rest
     events = hat.stick.get_events()
-    if (len(events) > 0):
+    if ((len(events) > 0)                and 
+        (events[0].action == "pressed")  and
+        ((events[0].timestamp - last_input) > 0.25)
+       ):
+      print(events[0])
       direction = events[0].direction
       if (direction == "up"):
         player = max(player - 1, 0)
@@ -58,14 +65,19 @@ while not game_over:
         hat.set_pixel(col, 0, black)
 
     # show the walls
-    for row in range(0,6):
+    for row in range(0,7):
        hat.set_pixel(0, row, purple)
        hat.set_pixel(7, row, purple)
+    hat.set_pixel(0,7, black)
+    hat.set_pixel(7,7, black)
+    # show the match
+    hat.set_pixel(0, match, yellow)
 
     # things to do one per second 
     if (time.time() - last_time > drop):
       last_time = time.time()
       print(countdown)
+      
       # drop all current bombs
       for row in range(6, 0, -1):
         for col in range(1,7):
@@ -79,11 +91,19 @@ while not game_over:
                   game_over = True
             hat.set_pixel(col, row+1, white)
             hat.set_pixel(col, row, black)
+      # drop the match
+      match = min(match + 1, 6)
 
       # if the player is on the edge, dump some bombs
       if ((player == 0 or player == 7) and (fill > 0)):
         fill = fill - 1
         score = score + 1
+        # if the drop is on the left, send the match up two
+        if (player == 0):
+          match = match - 2
+          if (match <= 0):
+            score = score + 5
+            match = 6
 
       # drop next bomb
       if (countdown == 0):
@@ -92,12 +112,9 @@ while not game_over:
         next = int(random.randint(1,6))
         countdown = 4
 
-
       countdown = countdown - 1
      
-    # we need to slow the overall loop just a little or the joystick is too twitchy
-    time.sleep(0.25)
-
 # game is over, show score and exit
 hat.clear()
-hat.show_message(str(score))
+for i in range(0,3):
+  hat.show_message(str(score))
