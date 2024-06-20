@@ -38,6 +38,11 @@ def menu():
         elif (event.direction == "down"):
             print("moving right " + str(page))
             page = (page + 1)% len(modes)
+        elif (event.direction == "left"):
+            sm = os.getpid()
+            subprocess.Popen.terminate(sm)
+            print("exiting submenu")
+
         elif (event.direction == "up"):
             print("moving left " + str(page))
             page = (page - 1)% len(modes)
