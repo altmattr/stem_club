@@ -66,6 +66,7 @@ def menu():
 
 def games_menu():
     global gamepage
+    hat.show_message("Games")
     while True:
         # show the mode we are in
         hat.show_letter(games[gamepage][1])
@@ -113,12 +114,6 @@ def killable_script(script, progress=False, cwd=None, sleep=True):
                     os.killpg(os.getpgid(ps.pid), signal.SIGTERM)
                     print("process killed")
                     ps = None
-                    return
-            for evt in hat.stick.get_events():
-                if (evt.direction == "right" and gamepage >= 0):
-                    print("exiting games submenu")
-                    ps = None
-                    subprocess.call(["sudo", "systemctl", "restart", "interface.service"])
                     return
         ps = None
         return
