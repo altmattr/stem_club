@@ -81,6 +81,11 @@ def games_menu():
         elif (event.direction == "down"):
             print("moving right " + str(gamepage))
             gamepage = (gamepage + 1)% len(games)
+        elif (event.direction == "right"):
+            print("exiting games menu")
+            gamepage = (gamepage + 1)% len(games)
+            hat.clear()
+            menu()
         elif (event.direction == "up"):
             print("moving left " + str(gamepage))
             gamepage = (gamepage - 1)% len(games)
@@ -112,7 +117,8 @@ def killable_script(script, progress=False, cwd=None, sleep=True):
             for evt in hat.stick.get_events():
                 if (evt.direction == "right" and gamepage >= 0):
                     print("exiting games submenu")
-                    menu()
+                    ps = None
+                    subprocess.call(["sudo", "systemctl", "restart", "interface.service"])
                     return
         ps = None
         return
