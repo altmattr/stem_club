@@ -1,3 +1,4 @@
+from sympy import N
 from sense_hat import SenseHat
 from signal import pause
 import subprocess
@@ -13,7 +14,7 @@ hat.set_rotation(90)
 page = 0
 modes = [
           ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
-        , ("games",            "G", lambda: killable_script(["/home/pi/stem_club/interface/gamesmenu.sh"], sleep=False))
+        , ("games",            "G", lambda: games_menu(), sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))
         , ("network details",  "N", lambda: killable_script(["/home/pi/stem_club/report_ssid.sh"], cwd="/home/pi/stem_club"))
@@ -31,6 +32,11 @@ modes = [
         , ("person car" ,      "r", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Person Car", "--source", "1"], cwd="/home/pi/stem_club"))
         ]
 ps = None
+
+games = [
+          ("buster",           "B", lambda: killable_script(["/home/pi/stem_club/safe_buster.sh"], sleep=False))
+        , ("sokoban",          "s", lambda: killable_script(["/home/pi/stem_club/sokoban.sh"], sleep=False))
+        ]
 
 print("hat initialised")
 
@@ -54,6 +60,33 @@ def menu():
         elif (event.direction == "up"):
             print("moving left " + str(page))
             page = (page - 1)% len(modes)
+        elif (event.direction == "middle"):
+            print("pushing in " + str(page))
+            modes[page][2]()
+
+def games_menu():
+    global page
+    while True:
+        # show the mode we are in
+        hat.show_letter(games[page][1])
+        # show an indication of running short of disk space (less than 10MB)
+        if (shutil.disk_usage("/").free < 10**7):
+            hat.set_pixel(0,0,[255,0,0])
+            hat.set_pixel(0,7,[255,0,0])
+            hat.set_pixel(7,0,[255,0,0])
+            hat.set_pixel(7,7,[255,0,0])
+        event = hat.stick.wait_for_event()
+        if (event.action != "pressed"):
+            continue
+        elif (event.direction == "down"):
+            print("moving right " + str(page))
+            page = (page + 1)% len(modes)
+        elif (event.direction == "up"):
+            print("moving left " + str(page))
+            page = (page - 1)% len(modes)
+        elif (event.direction == "right"):
+            print("exiting submenu")
+            page = (1)% len(modes)
         elif (event.direction == "middle"):
             print("pushing in " + str(page))
             modes[page][2]()
