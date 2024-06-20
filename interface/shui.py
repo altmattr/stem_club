@@ -1,4 +1,3 @@
-from sympy import N
 from sense_hat import SenseHat
 from signal import pause
 import subprocess
@@ -14,7 +13,7 @@ hat.set_rotation(90)
 page = 0
 modes = [
           ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
-        , ("games",            "G", lambda: games_menu(), sleep=False))
+        , ("games",            "G", lambda: killable_script([games_menu()], sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))
         , ("network details",  "N", lambda: killable_script(["/home/pi/stem_club/report_ssid.sh"], cwd="/home/pi/stem_club"))
@@ -33,9 +32,10 @@ modes = [
         ]
 ps = None
 
+gamepage = 0
 games = [
           ("buster",           "B", lambda: killable_script(["/home/pi/stem_club/safe_buster.sh"], sleep=False))
-        , ("sokoban",          "s", lambda: killable_script(["/home/pi/stem_club/sokoban.sh"], sleep=False))
+        , ("sokoban",          "S", lambda: killable_script(["/home/pi/stem_club/sokoban.sh"], sleep=False))
         ]
 
 print("hat initialised")
@@ -65,10 +65,10 @@ def menu():
             modes[page][2]()
 
 def games_menu():
-    global page
+    global gamepage
     while True:
         # show the mode we are in
-        hat.show_letter(games[page][1])
+        hat.show_letter(games[gamepage][1])
         # show an indication of running short of disk space (less than 10MB)
         if (shutil.disk_usage("/").free < 10**7):
             hat.set_pixel(0,0,[255,0,0])
@@ -79,17 +79,17 @@ def games_menu():
         if (event.action != "pressed"):
             continue
         elif (event.direction == "down"):
-            print("moving right " + str(page))
-            page = (page + 1)% len(modes)
+            print("moving right " + str(gamepage))
+            gamepage = (gamepage + 1)% len(games)
         elif (event.direction == "up"):
-            print("moving left " + str(page))
-            page = (page - 1)% len(modes)
+            print("moving left " + str(gamepage))
+            gamepage = (gamepage - 1)% len(games)
         elif (event.direction == "right"):
             print("exiting submenu")
-            page = (1)% len(modes)
+            gamepage = (gamepage + 1)% len(games)
         elif (event.direction == "middle"):
-            print("pushing in " + str(page))
-            modes[page][2]()
+            print("pushing in " + str(gamepage))
+            games[gamepage][2]()
 
 def killable_script(script, progress=False, cwd=None, sleep=True):
         ps = subprocess.Popen(script, cwd=cwd, preexec_fn=os.setsid)
@@ -111,6 +111,10 @@ def killable_script(script, progress=False, cwd=None, sleep=True):
                     os.killpg(os.getpgid(ps.pid), signal.SIGTERM)
                     print("process killed")
                     ps = None
+                    return
+                elif (evt.direction == "right" and evt.action == "pressed" and gamepage > 0):
+                    print("exiting games submenu")
+                    menu()
                     return
         ps = None
         return
