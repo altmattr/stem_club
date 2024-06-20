@@ -84,9 +84,6 @@ def games_menu():
         elif (event.direction == "up"):
             print("moving left " + str(gamepage))
             gamepage = (gamepage - 1)% len(games)
-        elif (event.direction == "right"):
-            print("exiting submenu")
-            gamepage = (gamepage + 1)% len(games)
         elif (event.direction == "middle"):
             print("pushing in " + str(gamepage))
             games[gamepage][2]()
@@ -112,7 +109,8 @@ def killable_script(script, progress=False, cwd=None, sleep=True):
                     print("process killed")
                     ps = None
                     return
-                elif (evt.direction == "right" and evt.action == "pressed" and gamepage > 0):
+            for evt in hat.stick.get_events():
+                if (evt.direction == "right" and gamepage >= 0):
                     print("exiting games submenu")
                     menu()
                     return
