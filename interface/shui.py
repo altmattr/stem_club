@@ -12,7 +12,7 @@ hat.clear()
 hat.set_rotation(90)
 page = 0
 modes = [
-          ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snap.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
+          ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snaps.sh"], cwd="/home/pi/stem_club/happy_snapss", sleep=False))
         , ("game",             "G", lambda: killable_script(["/home/pi/stem_club/safe_buster.sh"], sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))
@@ -22,14 +22,17 @@ modes = [
         , ("force hotspot",    "F", lambda: killable_script(["/home/pi/stem_club/field_mode.sh"], cwd="/home/pi/stem_club"))
         , ("training_capture", "T", lambda: killable_script(["/home/pi/stem_club/capture.sh"], progress=True))
         , ("sync",             "K", lambda: killable_script(["/home/pi/stem_club/thumb_sync.sh"], progress=True))
-        , ("image_net",        "i", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Inception V4", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("stem club",        "s", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Stem Club", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Is the camera covered?", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Numbers 0 to 9", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Glasses or not glasses?", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("pandemic",         "p", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Pandemic", "--source", "1"], cwd="/home/pi/stem_club"))
-        , ("person car" ,      "r", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/picam2_predict.sh", "--model", "Person Car", "--source", "1"], cwd="/home/pi/stem_club"))
+        , ("models",           "M", lambda: sub(models))
         ]
+
+models = [("image_net",        "i", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "inception_v4_quant"], cwd="/home/pi/stem_club"))
+        , ("stem club",        "s", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "stem_club"], cwd="/home/pi/stem_club"))
+        , ("covered?",         "c", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "covered_float"], cwd="/home/pi/stem_club"))
+        , ("numbers?",         "n", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "zero_nine"], cwd="/home/pi/stem_club"))
+        , ("glasses?",         "g", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "glasses_or_not"], cwd="/home/pi/stem_club"))
+        , ("pandemic",         "p", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "pandemic_permeter"], cwd="/home/pi/stem_club"))
+        , ("person car" ,      "r", lambda: killable_script(["python3", "-u", "/home/pi/stem_club/ai_snaps.sh", "--model", "person_car"], cwd="/home/pi/stem_club"))
+]
 ps = None
 
 print("hat initialised")
@@ -57,6 +60,26 @@ def menu():
         elif (event.direction == "middle"):
             print("pushing in " + str(page))
             modes[page][2]()
+
+def sub(sub_menu):
+    sub_page = 0
+    while True:
+        # show the mode we are in
+        hat.show_letter(sub_menu[sub_page][1])
+        event = hat.stick.wait_for_event()
+        if (event.action != "pressed"):
+            continue
+        elif (event.direction == "left"):
+            print("  sub moving down " + str(sub_page))
+            sub_page = (sub_page + 1)% len(sub_menu)
+        elif (event.direction == "right"):
+            print("  sub moving up " + str(sub_page))
+            sub_page = (sub_page - 1)% len(sub_menu)
+        elif (event.direction == "middle"):
+            print("  sub pushing in " + str(sub_page))
+            sub_menu[sub_page][2]()
+            return # jump right back to main menu when this action is done
+
 
 def killable_script(script, progress=False, cwd=None, sleep=True):
         ps = subprocess.Popen(script, cwd=cwd, preexec_fn=os.setsid)

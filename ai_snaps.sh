@@ -26,7 +26,7 @@ try:
 	config = cam.create_still_configuration(lores={"size": (224, 224)}, display="lores")
 	cam.configure(config)
 	cam.start_preview(Preview.NULL)
-    cam.start()
+	cam.start()
 except:
 	print("no camera detected")
 	cam = None
@@ -37,6 +37,7 @@ args = argparser.parse_args()
 
 try: 
 	hat = SenseHat()
+	print("hat found")
 	hat.set_rotation(90)
 	hat.show_message("?")
 except:
@@ -45,18 +46,20 @@ except:
 if args.model is None:
 	print("Which model would you like to run?")
 	for mod in os.listdir("models"):
-		print(f"{mod[0]}")
+		print(f"{mod}")
 	model = input()
 else:
 	model =  args.model
 
 try:
-	hat.show_message(f"{model} camera", [255,255,255], [0,0,0])
+	print("showing model")
+	hat.show_message(model)
 except:
+	print("no model")
 	pass
 
 modelfile = f"models/{model}/model.tflite"
-if os.path.isfile(f"models/#{model}/model_unquant.tflite"):
+if os.path.isfile(f"models/{model}/model_unquant.tflite"):
 	modelfile = f"models/{model}/model_unquant.tflite"
 
 interpreter = tflite.Interpreter(modelfile)
@@ -78,11 +81,14 @@ with open(f"models/{model}/labels.txt", "r") as f:
 labels_plus = list(map(lambda l: re.split("(?<=\d)\s+|\s+(?=\[)", l), labels))
 
 while True:
-    hat_or(lambda: hat.show_letter('?'), lambda: print("waiting..."))
-    event = sense.stick.wait_for_event()
-    hat_or(lambda: hat.clear(), lambda:print("predicting..."))
-    img_path= "/home/pi/stem_club/captures/camera-feed.jpg"
-    cam.capture_file(img_path)                               # grab and save file
+	event = hat.stick.wait_for_event()
+	if (event.direction == "middle" and event.action == "pressed"):
+		exit()
+	if (event.action != "pressed"):
+		continue
+	hat_or(lambda: hat.clear(), lambda:print("predicting..."))
+	img_path= "/home/pi/stem_club/captures/camera-feed.jpg"
+	cam.capture_file(img_path)                               # grab and save file
 
 	img = Image.open(img_path).convert('RGB').resize((width, height))
 	
@@ -119,10 +125,10 @@ while True:
 		else: 
 			hat.show_message(str(best_index), 0.1, [255,255,255], [0,0,0])
 	except:
-		pass
+		print("no hat found at display time")
 
 	# log if needed
-	log_as_file = "/home/pi/stem_club/logs/" + models[model_i][1] + "/" + label+"/" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S")+".png" if not label.endswith("*") else None
+	log_as_file = "/home/pi/stem_club/logs/" + model + "/" + label+"/" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S")+".png" if not label.endswith("*") else None
 	if (log_as_file):
 		os.makedirs(os.path.dirname(log_as_file), exist_ok=True)
 		shutil.copy(img_path, log_as_file)
