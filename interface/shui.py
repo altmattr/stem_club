@@ -12,7 +12,7 @@ hat.clear()
 hat.set_rotation(90)
 page = 0
 modes = [
-          ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snaps.sh"], cwd="/home/pi/stem_club/happy_snapss", sleep=False))
+          ("happy",            "H", lambda: killable_script(["/home/pi/stem_club/happy_snaps.sh"], cwd="/home/pi/stem_club/happy_snaps", sleep=False))
         , ("game",             "G", lambda: killable_script(["/home/pi/stem_club/safe_buster.sh"], sleep=False))
         , ("stream",           "S", lambda: killable_script(["/home/pi/stem_club/stream.sh"], progress=True))
         , ("disk",             "D", lambda: killable_script(["/home/pi/stem_club/disk_used.sh"]))

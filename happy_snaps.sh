@@ -13,7 +13,6 @@ hat.set_rotation(90)
 #hat.low_light = False
 
 print("for use with sense hat")
-os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
 
 while True:
     print(".", end="", flush=True)
