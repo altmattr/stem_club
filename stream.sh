@@ -8,6 +8,7 @@ import io
 import os
 import logging
 import socketserver
+import argparse
 from http import server
 from threading import Condition
 
@@ -15,7 +16,10 @@ from picamera2 import Picamera2
 from picamera2.encoders import JpegEncoder
 from picamera2.outputs import FileOutput
 
-os.environ["LIBCAMERA_LOG_LEVELS"] = "4"
+argparser = argparse.ArgumentParser(description="Stream from the pi camera to 8000")
+argparser.add_argument("--width", metavar="w", type=int, help="width in pixels of resulting stream", default=640)
+argparser.add_argument("--height", metavar="h", type=int, help="height in pixels of resulting stream", default=480)
+args = argparser.parse_args()
 
 # Code to request that browsers rotate the video, since picamera2 despises 90/270 degree rotations
 
@@ -25,7 +29,7 @@ PAGE="""\
 <title>mqpi - live stream</title>
 </head>
 <body>
-<center><img src="stream.mjpg" width="640" height="480"></center>
+<center><img src="stream.mjpg" width="{args.width}" height="{args.height}"></center>
 </body>
 </html>
 """
@@ -92,7 +96,7 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
 
 
 picam2 = Picamera2()
-picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
+picam2.configure(picam2.create_video_configuration(main={"size": (args.width, args.height)}))
 output = StreamingOutput()
 picam2.start_recording(JpegEncoder(), FileOutput(output))
 
