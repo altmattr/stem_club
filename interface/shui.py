@@ -51,11 +51,11 @@ def menu():
         event = hat.stick.wait_for_event()
         if (event.action != "pressed"):
             continue
-        elif (event.direction == "down"):
-            print("moving right " + str(page))
+        elif (event.direction == "left"):
+            print("moving down " + str(page))
             page = (page + 1)% len(modes)
-        elif (event.direction == "up"):
-            print("moving left " + str(page))
+        elif (event.direction == "right"):
+            print("moving up " + str(page))
             page = (page - 1)% len(modes)
         elif (event.direction == "middle"):
             print("pushing in " + str(page))
@@ -79,6 +79,9 @@ def sub(sub_menu):
             print("  sub pushing in " + str(sub_page))
             sub_menu[sub_page][2]()
             return # jump right back to main menu when this action is done
+        elif (event.direction == "up"): # Returning to main menu
+            print (" sub returning " + str(sub_page))
+            return
 
 
 def killable_script(script, progress=False, cwd=None, sleep=True):

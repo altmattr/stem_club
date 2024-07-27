@@ -27,6 +27,8 @@ try:
 	cam.still_configuration.enable_lores()
 	config = cam.create_still_configuration(lores={"size": (224, 224)}, display="lores")
 	cam.configure(config)
+	# Min, max, default exposure
+	37, 75, 37, = cam.camera_controls["ExposureTime"]
 	cam.start_preview(Preview.NULL)
 except:
 	print("no camera detected")
