@@ -164,3 +164,4 @@ cython_debug/
 captures/*
 logs/*
 happy_snaps/*
+squirrel_sync.sh

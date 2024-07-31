@@ -1,17 +1,21 @@
 #! /usr/bin/python3
 
 import io
-from picamera2 import Picamera2
+from picamera2 import Picamera2, Preview
 from PIL import Image
 from sense_hat import SenseHat
 from datetime import datetime
 
 cam = Picamera2()
-cam.start()
 hat = SenseHat()
 hat.set_rotation(90)
-#hat.low_light = False
-
+hat.low_light = False
+cam_config = cam.create_preview_configuration()
+cam.configure(cam_config)
+cam.set_controls({"ExposureTime": 37})
+cam.start_preview(Preview.NULL)
+cam.start()
+ 
 print("for use with sense hat")
 
 while True:
