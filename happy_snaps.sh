@@ -12,7 +12,7 @@ hat.set_rotation(90)
 hat.low_light = False
 cam_config = cam.create_preview_configuration()
 cam.configure(cam_config)
-cam.set_controls({"ExposureTime": 37})
+cam.set_controls({"ExposureTime": 2500})
 cam.start_preview(Preview.NULL)
 cam.start()
  
