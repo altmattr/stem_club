@@ -11,6 +11,7 @@ import os
 import re
 import glob
 from picamera2 import *
+from libcamera import controls
 from sense_hat import SenseHat
 from datetime import datetime
 
@@ -27,7 +28,7 @@ try:
 	cam.still_configuration.enable_lores()
 	config = cam.create_still_configuration(lores={"size": (224, 224)}, display="lores")
 	cam.configure(config)
-	cam.set_controls({'ExposureTime': 37})
+	cam.set_controls({'AeExposureMode': controls.AeExposureModeEnum.Short})
 	cam.start_preview(Preview.NULL)
 except:
 	print("no camera detected")
