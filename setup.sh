@@ -18,7 +18,9 @@ esac
 #sudo apt-get install -y python3-opencv
 #sudo apt-get install -y network-manager dnsmasq
 #sudo apt-get install -y sshpass
-#sudo apt-get install -y rpicam-apps
+#sudo apt-get install -y rpicam-apps-lite
+#sudo apt install rpi-connect-lite
+#sudo apt install python3-picamera2
 
 #sudo systemctl disable dnsmasq
 #sudo systemctl enable NetworkManager
@@ -30,10 +32,10 @@ python -m pip install picamera
 python -m pip install numpy
 
 # adjustments to kernel/os options
-echo "\n"                     | sudo tee -a /boot/config.txt
-echo "enable_uart=1\n"        | sudo tee -a /boot/config.txt
-echo "dtoverlay=disable-bt\n" | sudo tee -a /boot/config.txt # needed to get uart on gpio on some pis I think
-echo "start_x=1\n"            | sudo tee -a /boot/config.txt # needed to enable the camera
+echo "\n"                     | sudo tee -a /boot/firmware/config.txt
+echo "enable_uart=1\n"        | sudo tee -a /boot/firmware/config.txt
+echo "dtoverlay=disable-bt\n" | sudo tee -a /boot/firmware/config.txt # needed to get uart on gpio on some pis I think
+echo "start_x=1\n"            | sudo tee -a /boot/firmware/config.txt # needed to enable the camera
 
 # enable ssh on next boot
 sudo touch /boot/ssh
@@ -43,10 +45,10 @@ chmod a+x *.sh
 
 # TODO: consider `systemctl link` here
 # services
-sudo cp services/interface.service /lib/systemd/system/
+sudo install -m 644 "services/interface.service" "/lib/systemd/system/"
 sudo systemctl enable interface.service
 
-sudo cp services/sensors.service /lib/systemd/system/
+sudo install -m 644 "services/sensors.service" "/lib/systemd/system/"
 sudo systemctl enable sensors.service
 
 # setup wifi access point
@@ -70,7 +72,13 @@ sudo nmcli connection modify $APNAME 802-11-wireless-security.psk "$KEY"
 sudo nmcli connection modify $APNAME 802-11-wireless-security.group ccmp
 sudo nmcli connection modify $APNAME 802-11-wireless-security.pairwise ccmp
 # Disable WPS
-sudo nmcli connection modify $APNAME 802-11-wireless-security.wps-method 1
+if grep -Fxq "wpa_cli" /home/pi/.bashrc
+then
+        echo "PIN fix already exists"
+else
+        echo -e "wpa_cli wps_ap_pin disable > /dev/null 2>&1" | tee -a /home/pi/.bashrc
+        echo -e "sed -i '/wpa_cli/d' /home/pi/.bashrc" | tee -a /home/pi/.bashrc
+fi
 
 sudo nmcli connection up $APNAME
 
